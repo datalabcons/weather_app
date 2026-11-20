@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Live weather, hourly and 7-day forecasts, powered by a cached Weather API.">
+  <title>Skycast · Weather Dashboard</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛅</text></svg>">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body data-theme="default">
+  <div class="app">
+    <header class="topbar">
+      <a class="logo" href="/">⛅ Skycast</a>
+
+      <form id="search-form" class="search" role="search" autocomplete="off">
+        <label for="search-input" class="sr-only">Search for a city</label>
+        <input id="search-input" type="search" placeholder="Search a city, e.g. Lagos, London, Tokyo" maxlength="100" required>
+        <button type="submit" class="btn primary">Search</button>
+        <button type="button" id="locate-btn" class="btn icon" title="Use my location" aria-label="Use my location">📍</button>
+      </form>
+
+      <div class="unit-toggle" role="group" aria-label="Units">
+        <button type="button" data-unit="metric" class="active" aria-pressed="true">°C</button>
+        <button type="button" data-unit="us" aria-pressed="false">°F</button>
+      </div>
+    </header>
+
+    <section class="chips-row" aria-label="Saved and recent places">
+      <div id="favorites" class="chips"></div>
+      <div id="recents" class="chips"></div>
+    </section>
+
+    <main id="main">
+      <!-- Empty state -->
+      <section id="empty-state" class="panel empty">
+        <div class="empty-emoji">🌍</div>
+        <h1>Check the weather anywhere</h1>
+        <p>Search for a city or use your location to see current conditions, the next 24 hours and a 7-day forecast.</p>
+        <div class="suggestions">
+          <button class="chip" data-city="Lagos">Lagos</button>
+          <button class="chip" data-city="Abuja">Abuja</button>
+          <button class="chip" data-city="London">London</button>
+          <button class="chip" data-city="New York">New York</button>
+          <button class="chip" data-city="Tokyo">Tokyo</button>
+        </div>
+      </section>
+
+      <!-- Loading -->
+      <section id="loading" class="hidden" aria-live="polite">
+        <div class="panel skeleton tall"></div>
+        <div class="grid-skeleton">
+          <div class="panel skeleton"></div><div class="panel skeleton"></div>
+          <div class="panel skeleton"></div><div class="panel skeleton"></div>
+        </div>
+        <span class="sr-only">Loading weather…</span>
+      </section>
+
+      <!-- Error -->
+      <section id="error" class="panel error-panel hidden" role="alert">
+        <div class="empty-emoji" id="error-emoji">⚠️</div>
+        <h2 id="error-title">Something went wrong</h2>
+        <p id="error-message"></p>
+        <button type="button" id="retry-btn" class="btn primary">Try again</button>
+      </section>
+
+      <!-- Weather -->
+      <section id="weather" class="hidden">
+        <div class="hero panel">
+          <div class="hero-main">
+            <div class="place-row">
+              <h1 id="place-name"></h1>
+              <button type="button" id="fav-btn" class="btn icon fav" aria-pressed="false" title="Save to favourites">☆</button>
+            </div>
+            <p class="muted" id="local-time"></p>
+            <div class="temp-row">
+              <span class="big-icon" id="current-icon" aria-hidden="true"></span>
+              <span class="big-temp" id="current-temp"></span>
+            </div>
+            <p class="conditions" id="current-conditions"></p>
+            <p class="muted" id="current-feels"></p>
+          </div>
+          <div class="hero-side">
+            <p class="summary" id="summary"></p>
+            <div class="cache-badge" id="cache-badge"></div>
+          </div>
+        </div>
+
+        <h2 class="section-title">Right now</h2>
+        <div class="details" id="details"></div>
+
+        <h2 class="section-title">Next 24 hours</h2>
+        <div class="panel hourly-wrap">
+          <div class="hourly" id="hourly"></div>
+        </div>
+
+        <h2 class="section-title">7-day forecast</h2>
+        <div class="panel daily" id="daily"></div>
+
+        <details class="panel api-panel">
+          <summary>🔌 API request &amp; raw response</summary>
+          <p class="muted">This page is a client of the Weather API. Here's the exact request it just made:</p>
+          <div class="api-url-row">
+            <code id="api-url"></code>
+            <button type="button" id="copy-url" class="btn small">Copy</button>
+          </div>
+          <pre id="raw-json"></pre>
+        </details>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Weather data by <a href="https://www.visualcrossing.com/" target="_blank" rel="noopener">Visual Crossing</a> ·
+        Built for the <a href="https://roadmap.sh/projects/weather-api-wrapper-service" target="_blank" rel="noopener">roadmap.sh Weather API</a> project ·
+        <a href="/api/health" target="_blank">API status</a></p>
+    </footer>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
