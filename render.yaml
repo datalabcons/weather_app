@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: weather-api
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: WEATHER_API_KEY
+        sync: false
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: weather-cache
+          property: connectionString
+
+  - type: keyvalue
+    name: weather-cache
+    plan: free
+    ipAllowList: []
+    maxmemoryPolicy: allkeys-lru
