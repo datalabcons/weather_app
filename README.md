@@ -10,7 +10,9 @@ A fullstack weather application. The **backend** is a weather API that fetches d
 
 Built for the [roadmap.sh Weather API project](https://roadmap.sh/projects/weather-api-wrapper-service) as my Week 2 fullstack project.
 
-🔗 **Live site:** https://YOUR-APP-NAME.onrender.com  <!-- TODO: replace after deploying -->
+🔗 **Live site:** https://weather-api-0thv.onrender.com
+
+> Hosted on Render's free plan: if the site has been idle, the first load can take up to a minute while it wakes up.
 
 🎬 **Demo video:**
 
@@ -273,7 +275,7 @@ Weather API running at http://localhost:3000
 
 ## API Reference
 
-Base URL: `http://localhost:3000` locally, or your Render URL in production.
+Base URL: `http://localhost:3000` locally, or `https://weather-api-0thv.onrender.com` in production.
 
 ### `GET /api/weather`
 
